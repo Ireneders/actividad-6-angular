@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IUser } from '../../interfaces/iuser.interface';
 
 @Component({
   selector: 'app-user-card',
@@ -8,4 +9,18 @@ import { Component } from '@angular/core';
 })
 export class UserCardComponent {
 
+  @Input() miUser: IUser= {
+    _id: '',
+    id: 0,
+    first_name: '',
+    last_name: '',
+    username: '',
+    email: '',
+    image: '',
+    password: ''
+  };
+  
+  constructor() {
+    console.log('Constructor:', this.miUser);
+  }
 }

@@ -1,1 +1,9 @@
-<p>home works!</p>
+<section class="classUser">
+    <div class="row g-4">
+        @for (user of arrUsers; track user._id) {
+        <article class="col-12 col-md-6 col-lg-3">
+            <app-user-card [miUser]="user"></app-user-card>
+        </article>}
+    </div>
+
+</section>
