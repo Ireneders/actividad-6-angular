@@ -14,16 +14,45 @@ import { UserCardComponent } from "../../components/user-card/user-card.componen
 export class HomeComponent {
 
   arrUsers: IUser[]= []
+  arrResponse: IResponse = {
+    page: 0,
+    per_page: 0,
+    total: 0,
+    total_pages: 0,
+    results: [],
+  };
   userService = inject(UserService);
+  isLoading: boolean = false;
 
   async ngOnInit(){
 
-    try{ let response:IResponse = await this.userService.getAllPromise()
-      this.arrUsers = response.results
-      console.log('HomeComponent', this.arrUsers)
-    } catch (error){
-      console.error(error)
-    }
+   this.loadUsers()
    
   }
+
+  async loadUsers (){
+    this.isLoading = true;
+    try{ let response:IResponse = await this.userService.getAllPromise()
+      this.arrUsers = response.results
+      this.arrResponse = response
+    } catch (error){
+      console.error(error)
+    }finally{
+      this.isLoading = false;
+    }
+    
+  }
+
+  // goToNextPage() {
+  //   if (this.arrResponse.page < this.arrResponse.total_pages) {
+  //     this.arrResponse.page + 1;
+  //   }
+  // }
+
+  // goToPreviousPage() {
+  //   if (this.arrResponse.page > 1) {
+  //     this.arrResponse.page - 1;
+  //   }
+  // }
+
 }

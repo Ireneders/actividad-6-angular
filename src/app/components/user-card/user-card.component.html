@@ -1,22 +1,25 @@
-<div class="card" style="width: 18rem;">
-    <figure>
-        <img [src]="miUser.image" class="card-img-top" [alt]="miUser.username">
+<div class="card p-3" style="width: 18rem;">
+    <figure class="text-center">
+        <img [src]="miUser.image" class="card-img-top rounded-circle" [alt]="miUser.username" style="width: 150px; height: 150px;">
     </figure>
     
-    <div class="card-body text-center">
+    <div class=" text-center">
         <h5 class="card-title">{{miUser.first_name}}</h5>
         <p class="card-text">{{miUser.username}}</p>
         <div class="d-flex justify-content-around">
-            <div class="text-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25313.png" alt="" class="img-fluid cursor-pointer" style="width: 24px;">
+    
+            <div class="text-center cursor-pointer" [routerLink]="['/user', miUser._id]">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25313.png" alt="" class="img-fluid " style="width: 24px;">
                 <p class="mt-1 small">Ver Detalle</p>
             </div>
+
             <div class="text-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/2546/2546743.png" alt="" class="img-fluid cursor-pointer" style="width: 24px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/2546/2546743.png" alt="" class="img-fluid" style="width: 24px;">
                 <p class="mt-1 small">Actualizar</p>
             </div>
+
             <div class="text-center">
-                <img src="https://w7.pngwing.com/pngs/117/969/png-transparent-computer-icons-delete-icon-angle-text-brand-thumbnail.png" alt="" class="img-fluid cursor-pointer" style="width: 24px;">
+                <img src="https://w7.pngwing.com/pngs/117/969/png-transparent-computer-icons-delete-icon-angle-text-brand-thumbnail.png" alt="" class="img-fluid" style="width: 24px;">
                 <p class="mt-1 small">Borrar</p>
             </div>
         </div>
