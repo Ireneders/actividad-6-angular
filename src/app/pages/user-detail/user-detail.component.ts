@@ -3,6 +3,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 import { IResponse } from '../../interfaces/iresponse.interface';
 import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-detail',
@@ -32,8 +33,8 @@ export class UserDetailComponent {
       this.isLoading = true;
       try{
         this.theUser = await this.userServices.getById(_id);
-      } catch{
-        console.log(Error);
+      } catch (error:any){
+        toast.error(error.message);
       }finally{
         this.isLoading = false;
       }

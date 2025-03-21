@@ -13,9 +13,12 @@ export class UserService {
   private baseUrl = 'https://peticiones.online/api/users'
 
 
-  getAllPromise() : Promise<IResponse> {
-    return lastValueFrom(this.http.get<IResponse>(this.baseUrl)) ;
+  getAllPromise(url = "https://peticiones.online/api/users?page=1&limit=10") : Promise<IResponse> {
+    return lastValueFrom(this.http.get<IResponse>(url)) ;
   }
+
+
+
   getById(_id: string) : Promise<IUser> {
     return lastValueFrom(this.http.get<IUser>(`${this.baseUrl}/${_id}`));	 ;
   }

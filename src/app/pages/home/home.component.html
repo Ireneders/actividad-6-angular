@@ -1,7 +1,7 @@
 @if (isLoading ===true) {
   <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
       <figure>
-          <img src="https://cssbud.com/wp-content/uploads/2022/05/pendulum.gif" alt="">
+            <img src="https://i.gifer.com/ZKZg.gif" alt="" style="max-width: 150px; max-height: 150px;">
       </figure>
   </div>
 }
@@ -17,27 +17,9 @@
         </article>}
     </div>
 
-    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-5">
-      <ul class="pagination">
-        <li class="page-item">
-        <a class="page-link text-white bg-dark" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Anterior</span>
-        </a>
-        </li>
-        <li class="page-item">
-        <a class="page-link text-white bg-dark" href="#">1</a>
-        </li>
-        <li class="page-item">
-        <a class="page-link text-white bg-dark" href="#">2</a>
-        </li>
-        <li class="page-item">
-        <a class="page-link text-white bg-dark" href="#" aria-label="Next">
-          <span class="sr-only">Siguiente</span>
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-        </li>
-      </ul>
-    </nav>
+    <div class="d-flex justify-content-center mt-5">
+      <button class="btn btn-dark me-2" (click)="gotoPrev()">Anterior</button>
+      <button class="btn btn-dark" (click)="gotoNext()">Siguiente</button>
+    </div>
 </section>
 }

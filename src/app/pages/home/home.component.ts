@@ -3,6 +3,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
 import { IResponse } from '../../interfaces/iresponse.interface';
 import { UserCardComponent } from "../../components/user-card/user-card.component";
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,8 @@ export class HomeComponent {
   };
   userService = inject(UserService);
   isLoading: boolean = false;
+  linkPrev : string = "";
+  linkNext : string = "";
 
   async ngOnInit(){
 
@@ -35,12 +38,23 @@ export class HomeComponent {
     try{ let response:IResponse = await this.userService.getAllPromise()
       this.arrUsers = response.results
       this.arrResponse = response
-    } catch (error){
-      console.error(error)
+      this.linkPrev = "https://peticiones.online/api/users?page=1&limit=8";
+      this.linkNext = "https://peticiones.online/api/users?page=2&limit=8";
+    } catch (error:any){
+      toast.error(error.message)
     }finally{
       this.isLoading = false;
     }
     
+  }
+
+
+  async gotoPrev(){
+    let response:IResponse = await this.userService.getAllPromise(this.linkPrev)
+  }
+
+  async gotoNext(){
+    let response:IResponse = await this.userService.getAllPromise(this.linkNext)
   }
 
   // goToNextPage() {

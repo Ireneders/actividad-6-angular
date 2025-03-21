@@ -1,1 +1,20 @@
-<p>user-update works!</p>
+
+@if (isLoading ===true) {
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <figure>
+            <img src="https://i.gifer.com/ZKZg.gif" alt="" style="max-width: 150px; max-height: 150px;">
+        </figure>
+    </div>
+}
+@if (isLoading ===false) {
+    <div class="row g-2">
+        <div class="col-md-6 d-flex align-items-center justify-content-end border-end border-2 border-dark">
+            <img [src]="theUser.image" [alt]="theUser.username" class="img-fluid rounded-circle me-5" style="width: 400px; height: 400px;">
+        </div>
+
+        <div class="col-md-6 justify-content-start">
+            <app-user-form-component></app-user-form-component>
+        </div>
+    </div>
+}
+
