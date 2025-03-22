@@ -21,12 +21,11 @@ export class UserCardComponent {
         label: 'Borrar',
         onClick: async () => {
           let response = await this.userService.delete(_id);
-
           this.deleteItemEmit.emit(true);
+          toast.success('User deleted successfully');
         },
       },
     });
   }
-
 
 }

@@ -1,22 +1,25 @@
-<<<<<<< HEAD
-=======
-<form>
-    <div class="mb-3">
-        <label for="nombreUsuario" class="form-label">Nombre Usuario</label>
-        <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese su nombre">
-    </div>
-    <div class="mb-3">
-        <label for="apellidosUsuario" class="form-label">Apellidos</label>
-        <input type="text" class="form-control" id="apellidosUsuario" placeholder="Ingrese sus apellidos">
-    </div>
-    <div class="mb-3">
-        <label for="emailUsuario" class="form-label">Email</label>
-        <input type="email" class="form-control" id="emailUsuario" placeholder="Ingrese su email">
-    </div>
-    <div class="mb-3">
-        <label for="imagenUsuario" class="form-label">Imagen Usuario</label>
-        <input type="url" class="form-control" id="imagenUsuario" placeholder="Ingrese la URL de la imagen">
-    </div>
-</form>
->>>>>>> origin/main
+<section class="container align-items-center justify-content-center" style="max-width: 700px; margin: 0 auto;">
+    <form [formGroup]="userForm" (ngSubmit)="getDataForm()">
+        <input type="hidden" formControlName="_id">
+        <div class="mb-3" >
+            <label for="first_name" class="form-label">Nombre Usuario</label>
+            <input type="text" class="form-control" id="first_name" formControlName="first_name" placeholder="Ingrese su nombre">
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Apellidos Usuario</label>
+            <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="Ingrese sus apellidos">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Usuario</label>
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su email">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Imagen Usuario</label>
+            <input type="url" class="form-control" id="image" formControlName="image" placeholder="Ingrese la URL de la imagen">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" [value]="userForm.get('_id')?.value ? 'Actualizar' : 'Guardar'">
+        </div>
+    </form>
+</section>
 

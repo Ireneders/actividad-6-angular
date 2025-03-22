@@ -25,4 +25,14 @@ export class UserService {
   delete(_id: string) : Promise<IUser> {
     return lastValueFrom(this.http.delete<IUser>(`${this.baseUrl}/${_id}`));
   }
+
+  update(user : IUser) : Promise<IUser> {
+    return lastValueFrom(this.http.put<IUser>(`${this.baseUrl}/${user._id}`, user));
+  }
+
+  insert (user : IUser) : Promise<IUser> {
+    return lastValueFrom(this.http.post<IUser>(this.baseUrl, user));
+  }
+
+  
 }
