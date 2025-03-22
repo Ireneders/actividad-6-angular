@@ -4,6 +4,7 @@ import { IResponse } from '../../interfaces/iresponse.interface';
 import { UserService } from '../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-detail',
@@ -33,7 +34,11 @@ export class UserDetailComponent {
     try{
       this.theUser = await this.userServices.getById(this.idUser);
       if ('error' in this.theUser) {
-        toast.error((this.theUser as any).error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: ((this.theUser as any).error),
+        });
         this.router.navigate(['/home']);
       }
     } catch (error:any){
@@ -44,21 +49,33 @@ export class UserDetailComponent {
   }
 
   deleteUser(_id: string) {
-    toast(`Vas a borrar al usuario ${this.theUser.username}`, {
-      action: {
-      label: 'Borrar',
-      onClick: async () => {
-        try {
-        let response = await this.userServices.delete(_id);
-        toast.success('User deleted successfully');
-        if ('error' in this.theUser) {
-          toast.error((this.theUser as any).error);
-        }
-        } catch (error: any) {
-        toast.error(`Error deleting user: ${error.message || error}`);
-        }
-      },
-      },
-    });
-  }
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: `Vas a borrar al usuario ${this.theUser.username}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, borrar",
+      cancelButtonText: "Cancelar"
+
+    }).then((result) => {
+      if (result.isConfirmed) {
+      let response =  this.userServices.delete(_id);
+      Swal.fire({
+          title: "Usuario eliminado",
+          icon: "success",
+          draggable: true
+        });
+        this.router.navigate(['/home']);
+      if ('error' in this.theUser) {
+        toast.error((this.theUser as any).error);
+      }} else{
+        this.router.navigate(['/home']);
+      }
+      })
+    };
+
+   
+
 }

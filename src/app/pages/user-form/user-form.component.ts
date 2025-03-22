@@ -4,7 +4,9 @@ import { UserService } from '../../services/user.service';
 import { IResponse } from '../../interfaces/iresponse.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
-import { IError } from '../../interfaces/error.interface';
+import { IError, IRequest } from '../../interfaces/error.interface';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { IError } from '../../interfaces/error.interface';
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
- @Input() idUser: string = '';
+   @Input() idUser: string = '';
   theUser: IUser = {
     _id: '',
     id: 0,
@@ -27,46 +29,57 @@ export class UserFormComponent {
   }
   userService = inject (UserService);
   userForm : FormGroup = new FormGroup({}, []);
+  tittle: string = 'Nuevo ';
+  router= inject(Router);
 
   async ngOnInit() {
-    if (this.idUser) {
-      try{
-        this.theUser = await this.userService.getById(this.idUser);
-        console.log(this.theUser);
 
-      }catch(error){
-        toast.error(Error);
-      }
+    if (this.idUser) {
+      
+        this.theUser = await this.userService.getById(this.idUser);
+        this.tittle = 'Actualizar ';
+        if ('error' in this.theUser) {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: ((this.theUser as any).error),
+              });
+              this.router.navigate(['/home']);
+        }
      
     }
 
-
-
     this.userForm = new FormGroup({
-      _id: new FormControl(this.theUser._id || null, []),
-      first_name: new FormControl(this.theUser.first_name || "", []),
-      last_name: new FormControl(this.theUser.last_name || "", []),
-      email: new FormControl(this.theUser.email || "", []),
-      image: new FormControl(this.theUser.image || "", []),
+      _id: new FormControl(this.idUser || null, []),
+      first_name: new FormControl(this.theUser?.first_name || "", []),
+      last_name: new FormControl(this.theUser?.last_name || "", []),
+      email: new FormControl(this.theUser?.email || "", []),
+      image: new FormControl(this.theUser?.image || "", []),
     }, []);
 
   }
 
   getDataForm () {
-    let response: IUser | any;
+    //console.log(this.userForm.value);check
 
-    try {
-      if (this.userForm.value._id) {
-        response = this.userService.update(this.userForm.value);
-        if ('request' in this.theUser) {
-          toast.error((this.theUser as any).request);
-        }
-      } else {
-        response = this.userService.insert(this.userForm.value);
-      }
-    } catch (error) {
-      toast.error(error as string);
-    }
+     try {
+       if (this.userForm.value._id) {
+         this.userService.update(this.userForm.value);
+         Swal.fire({
+          title: "Usuario actualizado",
+          text: `Has actualizado a ${this.theUser.first_name} ${this.theUser.username}`, 
+          icon: "success",
+          draggable: true
+        });
+         if ('request' in this.theUser) {
+           toast.error((this.theUser as any).request);
+         }
+       } else {
+         this.userService.insert(this.userForm.value);
+       }
+     } catch (error) {
+       toast.error(error as string);
+     }
   }
 
 }

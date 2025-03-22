@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IResponse } from '../interfaces/iresponse.interface';
-import { lastValueFrom } from 'rxjs';
+import { first, lastValueFrom } from 'rxjs';
 import { IUser } from '../interfaces/iuser.interface';
+import { IError, IRequest } from '../interfaces/error.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,11 @@ export class UserService {
     return lastValueFrom(this.http.delete<IUser>(`${this.baseUrl}/${_id}`));
   }
 
-  update(user : IUser) : Promise<IUser> {
+  update(user : IUser) : Promise<IUser> | IError | IRequest {
     return lastValueFrom(this.http.put<IUser>(`${this.baseUrl}/${user._id}`, user));
   }
 
-  insert (user : IUser) : Promise<IUser> {
+  insert (user : IUser) : Promise<IUser> | IRequest{
     return lastValueFrom(this.http.post<IUser>(this.baseUrl, user));
   }
 
