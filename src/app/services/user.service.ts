@@ -13,13 +13,16 @@ export class UserService {
   private baseUrl = 'https://peticiones.online/api/users'
 
 
-  getAllPromise(url = "https://peticiones.online/api/users?page=1&limit=10") : Promise<IResponse> {
-    return lastValueFrom(this.http.get<IResponse>(url)) ;
+  getAllPromise(url: string): Promise<IResponse> {
+    url = (url === "") ? "https://peticiones.online/api/users?page=1&limit=8" : url;
+    return lastValueFrom(this.http.get<IResponse>(url));
   }
-
-
 
   getById(_id: string) : Promise<IUser> {
     return lastValueFrom(this.http.get<IUser>(`${this.baseUrl}/${_id}`));	 ;
+  }
+
+  delete(_id: string) : Promise<IUser> {
+    return lastValueFrom(this.http.delete<IUser>(`${this.baseUrl}/${_id}`));
   }
 }

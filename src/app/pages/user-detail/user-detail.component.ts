@@ -13,28 +13,26 @@ import { toast } from 'ngx-sonner';
 })
 export class UserDetailComponent {
   @Input() idUser: string = '';
-  theUser: IUser = {
+  theUser: IUser={
     _id: '',
-    id: 0,
     first_name: '',
     last_name: '',
     username: '',
     email: '',
     image: '',
-    password: '',
-  
+    password: ''
   }
   userServices = inject (UserService);
+
   isLoading: boolean = false;
   
 
   async ngOnInit() {
-      let _id = this.idUser;
       this.isLoading = true;
       try{
-        this.theUser = await this.userServices.getById(_id);
+        this.theUser = await this.userServices.getById(this.idUser);
       } catch (error:any){
-        toast.error(error.message);
+        toast.error(error);
       }finally{
         this.isLoading = false;
       }

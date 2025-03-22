@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
 import { IResponse } from '../../interfaces/iresponse.interface';
-import { UserCardComponent } from "../../components/user-card/user-card.component";
 import { toast } from 'ngx-sonner';
+import { UserCardComponent } from '../../shared/user-card/user-card.component';
 
 @Component({
   selector: 'app-home',
@@ -26,16 +26,18 @@ export class HomeComponent {
   isLoading: boolean = false;
   linkPrev : string = "";
   linkNext : string = "";
+  @Output() deleteItemEmit: EventEmitter<Boolean> = new EventEmitter();
 
-  async ngOnInit(){
+  ngOnInit(){
 
-   this.loadUsers()
+   this.loadUsers("")
    
   }
 
-  async loadUsers (){
+  async loadUsers (url:string = ""){
     this.isLoading = true;
-    try{ let response:IResponse = await this.userService.getAllPromise()
+    try{ 
+      let response:IResponse = await this.userService.getAllPromise(url)
       this.arrUsers = response.results
       this.arrResponse = response
       this.linkPrev = "https://peticiones.online/api/users?page=1&limit=8";
@@ -50,23 +52,16 @@ export class HomeComponent {
 
 
   async gotoPrev(){
-    let response:IResponse = await this.userService.getAllPromise(this.linkPrev)
+    this.loadUsers(this.linkPrev)
   }
 
-  async gotoNext(){
-    let response:IResponse = await this.userService.getAllPromise(this.linkNext)
+  async gotoNext()
+  {this.loadUsers(this.linkNext)
   }
 
-  // goToNextPage() {
-  //   if (this.arrResponse.page < this.arrResponse.total_pages) {
-  //     this.arrResponse.page + 1;
-  //   }
-  // }
-
-  // goToPreviousPage() {
-  //   if (this.arrResponse.page > 1) {
-  //     this.arrResponse.page - 1;
-  //   }
-  // }
-
+  async deleteUser(event: any){
+    if(event){
+      this.loadUsers("")
+    }
+  }
 }
