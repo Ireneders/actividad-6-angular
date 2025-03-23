@@ -15,7 +15,7 @@ export class UserService {
 
 
   getAllPromise(url: string): Promise<IResponse> {
-    url = (url === "") ? "https://peticiones.online/api/users?page=1&limit=8" : url;
+    url = (url === "") ? `${this.baseUrl}?page=1&limit=8` : url;
     return lastValueFrom(this.http.get<IResponse>(url));
   }
 

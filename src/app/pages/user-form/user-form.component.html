@@ -5,21 +5,45 @@
         <div class="mb-3" >
             <label for="first_name" class="form-label">Nombre Usuario</label>
             <input type="text" class="form-control" id="first_name" formControlName="first_name" placeholder="Ingrese su nombre">
+            @if(checkControl('first_name', 'required')){
+                <p class="error">El campo es obligatorio</p>
+            }
+            @if(checkControl('first_name', 'minlength')){
+                <p class="error">El campo debe tener al menos 3 caracteres</p>
+            }
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Apellidos Usuario</label>
             <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="Ingrese sus apellidos">
+            @if(checkControl('last_name', 'required')){
+                <p class="error">El campo es obligatorio</p>
+            }
+            @if(checkControl('last_name', 'maxlength')){
+                <p class="error">El apellido no puede tener más de 50 caracteres</p>
+            }
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email Usuario</label>
             <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su email">
+            @if(checkControl('email', 'required')){
+                <p class="error">El campo es obligatorio</p>
+            }
+            @if(checkControl('email', 'pattern')){
+                <p class="error">El email debe ser correcto</p>
+            }
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Imagen Usuario</label>
             <input type="url" class="form-control" id="image" formControlName="image" placeholder="Ingrese la URL de la imagen">
+            @if(checkControl('image', 'required')){
+                <p class="error">El campo es obligatorio</p>
+            }
+            @if(checkControl('image', 'pattern')){
+                <p class="error">La URL debe ser correcta</p>
+            }
         </div>
         <div>
-            <input type="submit" class="btn btn-primary" [value]="userForm.get('_id')?.value ? 'Actualizar' : 'Guardar'">
+            <input type="submit" class="btn btn-primary" [value]="userForm.get('_id')?.value ? 'Actualizar' : 'Guardar'" [disabled]="userForm.invalid">
         </div>
     </form>
 </section>
