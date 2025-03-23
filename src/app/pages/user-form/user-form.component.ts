@@ -1,11 +1,10 @@
 import { Component, inject, input, Input } from '@angular/core';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UserService } from '../../services/user.service';
-import { IResponse } from '../../interfaces/iresponse.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { toast, NgxSonnerToaster } from 'ngx-sonner';
-import { IError, IRequest } from '../../interfaces/error.interface';
-import Swal from 'sweetalert2';
+import { toast } from 'ngx-sonner';
+import { IError } from '../../interfaces/error.interface';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Router } from '@angular/router';
 
 
@@ -16,7 +15,8 @@ import { Router } from '@angular/router';
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
-   @Input() idUser: string = '';
+  isLoading: boolean = false;
+  @Input() idUser: string = '';
   theUser: IUser = {
     _id: '',
     id: 0,
@@ -77,7 +77,6 @@ export class UserFormComponent {
     try {
       if (this.userForm.value._id) {
         this.updateUser(this.userForm.value);
-        console.log(this.userForm.value)
       } else {
         this.createUser(this.userForm.value);
       }
@@ -86,40 +85,67 @@ export class UserFormComponent {
     }
   }
 
-  updateUser(userData: Partial<IUser>) {
-    // Logic to update the user
-    console.log('Updating user:', userData);
+  async updateUser(userFormValue: any) {
+    try {
+      const responseData = await this.userService.update(userFormValue); 
+      if (this.isUser(responseData)) {
+        Swal.fire({
+          title: "Usuario actualizado",
+          text: `Has actualizado a ${responseData.first_name} cuyo usuario es ${responseData.username}`,
+          icon: "success",
+          draggable: true
+        });
+      } else if (this.isError(responseData)) {
+        toast.error(`Error: ${responseData}`);
+      }
+    } catch (error) {
+      toast.error(`Error al actualizar el usuario: ${error}`);
+    }
   }
 
   
-    createUser(userData: Partial<IUser>) {
-      // Logic to create a new user
-      console.log('Creating user:', userData);
+  async createUser(userFormValue: any) {
+    try {
+      const responseData = await this.userService.insert(userFormValue); 
+      if (this.isUser(responseData)) {
+        Swal.fire({
+          title: "Nuevo usuario creado",
+          imageUrl: `${responseData.image}`,
+          imageWidth: 100, 
+          imageHeight: 100, 
+          customClass: {
+            image: 'rounded-circle' 
+          },
+          html: `Se ha ingresado correctamente un nuevo usuario.<br><br>
+          <strong>Nombre:</strong> ${responseData.first_name}<br>
+          <strong>Apellidos:</strong> ${responseData.last_name}<br>
+          <strong>Email:</strong> ${responseData.email}`,
+          icon: "success",
+          draggable: true
+        });
+        this.cleanForm()
+      } 
+    } catch (error) {
+      toast.error(`Error al crear el usuario: ${error}`);
     }
-  
-      //console.log(this.userForm.value);check
-    //console.log(this.userForm.value);check
 
-    // try {
-    //   if (this.userForm.value._id) {
-    //     this.userService.update(this.userForm.value);
-    //     Swal.fire({
-    //       title: "Usuario actualizado",
-    //       text: `Has actualizado a ${this.theUser.first_name} ${this.theUser.username}`, 
-    //       icon: "success",
-    //       draggable: true
-    //     });
-    //     if ('request' in this.theUser) {
-    //       toast.error((this.theUser as any).request);
-    //     }
-    //   } else {
-    //     this.userService.insert(this.userForm.value);
-    //   }
-    // } catch (error) {
-    //   toast.error(error as string);
-    // }
-  
+  }
 
+
+  cleanForm() {
+    this.userForm.reset();
+  }
+
+  // Funciones de tipo guardia
+  private isUser(responseData: any): responseData is IUser {
+    return responseData && responseData.first_name;
+  }
+
+  private isError(responseData: any): responseData is IError {
+    return responseData && responseData.message;
+  }
+
+  
 
   checkControl (controlName: string, errorName: string):boolean | undefined {
     return this.userForm.get(controlName)?.hasError(errorName) && this.userForm.get(controlName)?.touched;

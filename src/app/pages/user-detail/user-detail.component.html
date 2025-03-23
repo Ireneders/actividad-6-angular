@@ -7,25 +7,29 @@
     </div>
 }
 @if (isLoading ===false) {
-    <div class="row g-5">
-        <div class="col-md-6 d-flex align-items-center justify-content-end border-end border-2 border-dark">
-            <img [src]="theUser.image" [alt]="theUser.username" class="img-fluid rounded-circle me-5" style="width: 400px; height: 400px;">
-        </div>
-    
-        <div class="col-md-6 d-flex align-items-center justify-content-center ">
-            <div class="card-body ms-5">
-                <h2 class="card-title mb-3">{{ theUser.first_name }}</h2>
-                <h2 class="card-title mb-4">{{ theUser.last_name }}</h2>
-                <p class="card-text"><strong>Nombre de usuario:</strong> {{ theUser.username }}</p>
-                <p class="card-text"><strong>Email:</strong> {{ theUser.email }}</p>
-    
-                <div class="mt-3">
-                    <button class="btn btn-danger me-2" (click)="deleteUser(idUser)">Eliminar</button>
-                    <button class="btn btn-warning me-2" [routerLink]="['/updateuser', idUser]">Actualizar</button>
-                    <button class="btn btn-secondary" [routerLink]="['/home']">Volver al listado</button>
+
+    <div class="container mb-5">
+        <div class="row g-5">
+            <div class="col-12 col-md-6 text-center line">
+                <img [src]="theUser.image" [alt]="theUser.username" class="img-fluid rounded-circle" style="max-width: 100%; max-height: 400px;">
+            </div>
+
+            <div class="col-12 col-md-6 align-items-center d-flex">
+                <div class="card-body">
+                    <h2 class="card-title mb-3 text-center text-md-start">{{ theUser.first_name }}</h2>
+                    <h2 class="card-title mb-4 text-center text-md-start">{{ theUser.last_name }}</h2>
+                    <p class="card-text text-center text-md-start"><strong>Nombre de usuario:</strong> {{ theUser.username }}</p>
+                    <p class="card-text text-center text-md-start"><strong>Email:</strong> {{ theUser.email }}</p>
+
+                    <div class="mt-3 d-flex justify-content-center justify-content-md-start">
+                        <button class="btn btn-danger me-2" (click)="deleteUser(idUser)">Eliminar</button>
+                        <button class="btn btn-warning me-2" [routerLink]="['/updateuser', idUser]">Actualizar</button>
+                        <button class="btn btn-secondary" [routerLink]="['/home']">Volver al listado</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 }
+
 

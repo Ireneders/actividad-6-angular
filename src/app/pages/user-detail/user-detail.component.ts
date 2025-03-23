@@ -1,10 +1,10 @@
 import { Component, EventEmitter, inject, Input } from '@angular/core';
 import { IUser } from '../../interfaces/iuser.interface';
-import { IResponse } from '../../interfaces/iresponse.interface';
 import { UserService } from '../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import Swal from 'sweetalert2';
+import { IError } from '../../interfaces/error.interface';
 
 @Component({
   selector: 'app-user-detail',
@@ -70,12 +70,9 @@ export class UserDetailComponent {
         this.router.navigate(['/home']);
       if ('error' in this.theUser) {
         toast.error((this.theUser as any).error);
-      }} else{
-        this.router.navigate(['/home']);
-      }
+      }} 
       })
     };
 
-   
 
 }

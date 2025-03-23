@@ -1,0 +1,15 @@
+.line{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    border-right: 2px solid black;
+}
+
+@media (max-width: 768px) {
+    .line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: none;
+    }
+}

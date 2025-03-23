@@ -29,9 +29,7 @@ export class HomeComponent {
   @Output() deleteItemEmit: EventEmitter<Boolean> = new EventEmitter();
 
   ngOnInit(){
-
    this.loadUsers("")
-   
   }
 
   async loadUsers (url:string = ""){
